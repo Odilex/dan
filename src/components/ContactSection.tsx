@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCheckCircle, FaPhone } from 'react-icons/fa';
+// Removed: import emailjs from '@emailjs/browser';
 
 const ContactSection = () => {
+  const form = useRef<HTMLFormElement>(null);
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     message: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -28,36 +29,23 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setFormError('');
-
-    // Validate form
+  // New submit handler for client-side validation only
+  const handleSubmit = (e: React.FormEvent) => {
+    // Only validate, let the form submit if valid
     if (!formState.name || !formState.email || !formState.message) {
+      e.preventDefault();
       setFormError('Please fill in all fields');
-      setIsSubmitting(false);
       return;
     }
-
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formState.email)) {
+      e.preventDefault();
       setFormError('Please enter a valid email address');
-      setIsSubmitting(false);
       return;
     }
-
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormState({
-        name: '',
-        email: '',
-        message: '',
-      });
-    }, 1500);
+    setFormError('');
+    // Let the form submit to FormSubmit
+    setTimeout(() => setIsSubmitted(true), 1000); // Show success after redirect
   };
 
   return (
@@ -125,7 +113,14 @@ const ContactSection = () => {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit}>
+              <form
+                ref={form}
+                action="https://formsubmit.co/murenzidan1@gmail.com"
+                method="POST"
+                onSubmit={handleSubmit}
+              >
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={typeof window !== 'undefined' ? window.location.href : ''} />
                 <div className="mb-4">
                   <label htmlFor="name" className="block text-gray-700 mb-2">Name</label>
                   <input
@@ -162,21 +157,18 @@ const ContactSection = () => {
                     placeholder="Your message"
                   ></textarea>
                 </div>
-                
                 {formError && (
                   <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
                     {formError}
                   </div>
                 )}
-                
                 <motion.button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  Send Message
                 </motion.button>
               </form>
             )}
