@@ -36,17 +36,17 @@ const projects: Project[] = [
     technologies: ['Flutter', 'Dart', 'Firebase'],
     githubLink: 'https://github.com/murenz1/reminder-app',
     liveLink: undefined, // No live web demo for mobile app
-    image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=1000',
+    image: '/reminder.jpg',
     icons: [<SiTailwindcss key="tailwind" />, <SiTypescript key="typescript" />],
   },
   {
     id: 2,
-    title: 'QuickShop API',
-    description: 'A robust e-commerce REST API with features like user authentication, product management, order processing, and payment integration.',
-    technologies: ['Node.js', 'Express.js', 'MongoDB', 'JWT', 'TypeScript'],
-    githubLink: 'https://github.com/murenz1/quickshop-api',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1000',
-    icons: [<FaNodeJs key="node" />, <SiExpress key="express" />, <SiMongodb key="mongodb" />, <SiTypescript key="typescript" />],
+    title: 'Medtrack',
+    description: 'Medtrack is a software that enables patients to view and list their medicines for reminders, while doctors can update patients\' medicines. Built with PHP Laravel.',
+    technologies: ['PHP', 'Laravel', 'MySQL'],
+    githubLink: 'https://github.com/murenz1/medtrack', // Update with actual repo if available
+    image: '/medtrack-ui.png', // Use the newly provided Medtrack UI image
+    icons: [], // Add relevant icons if desired
   },
   {
     id: 3,
@@ -55,7 +55,7 @@ const projects: Project[] = [
     technologies: ['React Native', 'Expo', 'JavaScript', 'Firebase'],
     githubLink: 'https://github.com/murenz1/hahaonline',
     liveLink: undefined, // No live web demo for mobile app
-    image: getRandomHahaOnlineImage(),
+    image: '/hahaonline.png',
     icons: [<FaReact key="react" />, <SiTypescript key="typescript" />, <SiTailwindcss key="tailwind" />],
   },
   {
